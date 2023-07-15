@@ -12,11 +12,12 @@ class FileController extends Controller
     {
         $fileName = $request->input('fileName');
         $content =  $request->input('content');
-        
-      
+    
+        Storage::put($fileName, $content);
         $size = Storage::size($fileName);
-        //Checks the Size of file
+
         if($size>99){
+            Storage::delete($fileName);
             return "INTERNAL_SERVER_ERROR :File is greater than 100kb";
         }
         else{
@@ -25,6 +26,8 @@ class FileController extends Controller
 
         return "File uploaded Successfully 201";
         } 
+    
+        return "I am working fine . $size";
      
     }
     //Download funciton in Controller
@@ -40,6 +43,8 @@ class FileController extends Controller
         } else {
             return "File not Exists 404.";
         }
+
+        
 
       
     }
